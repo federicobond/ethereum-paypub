@@ -1,0 +1,28 @@
+{
+  "name": "ethereum-paypub",
+  "version": "0.0.1",
+  "description": "An ethereum implementation of the PayPub protocol for trustless payments for information publishing",
+  "main": "\"\"",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/federicobond/ethereum-paypub.git"
+  },
+  "keywords": [
+    "ethereum",
+    "paypub",
+    "solidity",
+    "truffle"
+  ],
+  "author": "Federico Bond",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/federicobond/ethereum-paypub/issues"
+  },
+  "homepage": "https://github.com/federicobond/ethereum-paypub#readme"
+}
