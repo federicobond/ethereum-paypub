@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/federicobond/ethereum-paypub/issues"
   },
-  "homepage": "https://github.com/federicobond/ethereum-paypub#readme"
+  "homepage": "https://github.com/federicobond/ethereum-paypub#readme",
+  "dependencies": {
+    "zeppelin-solidity": "0.0.10"
+  }
 }
