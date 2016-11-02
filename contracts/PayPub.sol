@@ -4,41 +4,50 @@ import "./zeppelin/Rejector.sol";
 import "./zeppelin/PullPayment.sol";
 
 contract PayPub is PullPayment, Rejector {
-  mapping(bytes32 => Chunk) public chunks;
 
-  struct Chunk {
-      bytes32 hash;
-      bytes password;
-      uint256 value;
-  }
+    struct Chunk {
+        bool present;
+        uint256 value;
+        bytes password;
+    }
 
-  function PayPub(bytes32[] hashes) {
-      for (uint32 i = 0; i < hashes.length; i++) {
-          bytes32 hash = hashes[i];
-          chunks[hash].hash = hash;
-      }
-  }
+    mapping(bytes32 => Chunk) public chunks;
+    bytes32[] public hashes;
 
-  function pay(bytes32 hash) payable {
-      Chunk chunk = chunks[hash];
-      if (chunk.hash == 0) throw;
-      if (chunk.password.length == 0) throw;
+    function PayPub(bytes32[] _hashes) {
+        for (uint32 i = 0; i < _hashes.length; i++) {
+            bytes32 hash = _hashes[i];
 
-      chunk.value += msg.value;
-  }
+            hashes.push(hash);
+            chunks[hash].present = true;
+        }
+    }
 
-  function release(bytes password) {
-      bytes32 hash = sha256(password);
-      Chunk chunk = chunks[hash];
-      if (chunk.hash != hash) throw;
+    function pay(bytes32 hash) payable {
+        Chunk chunk = chunks[hash];
 
-      chunk.password = password;
+        if (!chunk.present || chunk.password.length > 0) throw;
 
-      uint256 value = chunk.value;
+        chunk.value += msg.value;
+    }
 
-      if (value > 0) {
-        chunk.value = 0;
-        asyncSend(msg.sender, value);
-      }
-  }
+    function release(bytes password) {
+        bytes32 hash = computeHash(password);
+
+        Chunk chunk = chunks[hash];
+        if (!chunk.present) throw;
+
+        chunk.password = password;
+
+        uint256 value = chunk.value;
+
+        if (value > 0) {
+          chunk.value = 0;
+          asyncSend(msg.sender, value);
+        }
+    }
+
+    function computeHash(bytes password) constant returns(bytes32) {
+        return sha256(password);
+    }
 }
