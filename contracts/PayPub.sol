@@ -1,9 +1,8 @@
 pragma solidity ^0.4.2;
 
-import "./zeppelin/Rejector.sol";
 import "./zeppelin/PullPayment.sol";
 
-contract PayPub is PullPayment, Rejector {
+contract PayPub is PullPayment {
 
     struct Chunk {
         bool present;
