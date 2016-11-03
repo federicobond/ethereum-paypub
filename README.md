@@ -22,3 +22,11 @@ as a dependency, before compiling these contracts.
 git clone https://github.com/federicobond/ethereum-paypub.git
 npm install
 ```
+
+## License
+
+Code is licensed under MIT.
+
+## Author
+
+Made with love by [Federico Bond](https://github.com/federicobond).
