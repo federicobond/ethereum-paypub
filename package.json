@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "truffle test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,9 @@
   },
   "homepage": "https://github.com/federicobond/ethereum-paypub#readme",
   "dependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "babel-preset-stage-3": "^6.17.0",
     "zeppelin-solidity": "0.0.10"
   }
 }
