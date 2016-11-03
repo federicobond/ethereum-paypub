@@ -10,7 +10,7 @@ contract PayPub2 is PayPub {
 
     function PayPub2(uint _height, uint _count, bytes32[] _hashes) PayPub(_hashes) {
         if (_height <= block.number) throw;
-    
+
         height = _height;
         count  = _count;
     }

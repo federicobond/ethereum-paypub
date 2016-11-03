@@ -41,8 +41,8 @@ contract PayPub is PullPayment {
         uint256 value = chunk.value;
 
         if (value > 0) {
-          chunk.value = 0;
-          asyncSend(msg.sender, value);
+            chunk.value = 0;
+            asyncSend(msg.sender, value);
         }
     }
 
