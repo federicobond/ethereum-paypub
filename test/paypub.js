@@ -18,13 +18,24 @@ contract('PayPub', function(accounts) {
     assert.equal(hash, hashes[2]);
   });
 
-  it("should allow paying to a hash", async function() {
+  it("should accept payments to a known hash", async function() {
     var pp = await PayPub.new(hashes);
 
     await pp.pay(hashes[2], { value: 100 });
     var chunk = await pp.chunks(hashes[2]);
 
     assert.equal(new Chunk(chunk).value, 100);
+  });
+
+  it("should reject payments to unknown hashes", async function() {
+    var pp = await PayPub.new([]);
+
+    try {
+      await pp.pay(hashes[2], { value: 100 });
+      throw new Error('should not reach here')
+    } catch (e) {
+      assert.match(e.message, /invalid JUMP/)
+    }
   });
 
   it("should allow releasing a chunk password and claiming its value", async function() {
