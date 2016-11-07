@@ -1,8 +1,9 @@
 pragma solidity ^0.4.2;
 
+import "./zeppelin/Ownable.sol";
 import "./zeppelin/PullPayment.sol";
 
-contract PayPub is PullPayment {
+contract PayPub is Ownable, PullPayment {
 
     struct Chunk {
         bool present;
@@ -25,16 +26,20 @@ contract PayPub is PullPayment {
     function pay(bytes32 hash) payable {
         Chunk chunk = chunks[hash];
 
-        if (!chunk.present || chunk.password.length > 0) throw;
+        if (!chunk.present || chunk.password.length > 0) {
+            throw;
+        }
 
         chunk.value += msg.value;
     }
 
-    function release(bytes password) {
+    function release(bytes password) onlyOwner {
         bytes32 hash = computeHash(password);
 
         Chunk chunk = chunks[hash];
-        if (!chunk.present) throw;
+        if (!chunk.present) {
+            throw;
+        }
 
         chunk.password = password;
 

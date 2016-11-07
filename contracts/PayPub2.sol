@@ -27,7 +27,7 @@ contract PayPub2 is PayPub {
         return hashes[uint(blockhash) % hashes.length];
     }
 
-    function prove(uint index, bytes password) {
+    function prove(uint index, bytes password) onlyOwner {
         bytes32 hash = computeHash(password);
 
         if (hash != hashToProve(index)) throw;

@@ -12,7 +12,7 @@ contract('PayPub', function(accounts) {
   ];
 
   it("should store hashes in array", async function() {
-    var pp = await PayPub.new(hashes);
+    var pp = await PayPub.new(hashes, { from: accounts[0] });
 
     var hash = await pp.hashes(2);
     assert.equal(hash, hashes[2]);
@@ -21,7 +21,7 @@ contract('PayPub', function(accounts) {
   it("should accept payments to a known hash", async function() {
     var pp = await PayPub.new(hashes);
 
-    await pp.pay(hashes[2], { value: 100 });
+    await pp.pay(hashes[2], { from: accounts[1], value: 100 });
     var chunk = await pp.chunks(hashes[2]);
 
     assert.equal(new Chunk(chunk).value, 100);
@@ -31,7 +31,7 @@ contract('PayPub', function(accounts) {
     var pp = await PayPub.new([]);
 
     try {
-      await pp.pay(hashes[2], { value: 100 });
+      await pp.pay(hashes[2], { from: accounts[1], value: 100 });
       throw new Error('should not reach here')
     } catch (e) {
       assert.match(e.message, /invalid JUMP/)
@@ -45,10 +45,10 @@ contract('PayPub', function(accounts) {
 
     var pp = await PayPub.new([hash]);
 
-    await pp.pay(hash, { from: accounts[0], value: 100 })
-    await pp.release(password, { from: accounts[1] })
+    await pp.pay(hash, { from: accounts[1], value: 100 })
+    await pp.release(password, { from: accounts[0] })
 
-    var received = await pp.payments(accounts[1])
+    var received = await pp.payments(accounts[0])
     assert.equal(received, 100);
   })
 
